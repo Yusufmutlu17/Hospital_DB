@@ -1,0 +1,344 @@
+CREATE TABLE POLIKLINIK
+(
+p_id INT NOT NULL,
+p_ad VARCHAR2(50) NOT NULL,
+p_adres VARCHAR2(150) NOT NULL,
+PRIMARY KEY (p_id)
+);
+
+CREATE TABLE DOKTOR
+(
+dr_id INT NOT NULL,
+dr_ad VARCHAR2(20) NOT NULL,
+dr_soyad VARCHAR2(20) NOT NULL,
+dr_telefonNo NUMBER(14) NOT NULL,
+dr_mail VARCHAR(100) NOT NULL,
+dr_cinsiyet VARCHAR(10) NOT NULL,
+p_id INT NOT NULL,
+PRIMARY KEY (dr_id),
+FOREIGN KEY (p_id) REFERENCES POLIKLINIK (p_id)
+);
+
+
+CREATE TABLE RANDEVU
+(
+r_id NUMBER NOT NULL,
+r_tarih DATE NOT NULL,
+r_durum VARCHAR2(100) NOT NULL,
+h_tcNo NUMBER(11) NOT NULL,
+p_id INT NOT NULL,
+PRIMARY KEY (r_id),
+FOREIGN KEY (p_id) REFERENCES POLIKLINIK (p_id)
+);
+
+
+CREATE TABLE MUAYENE
+(
+m_id INT NOT NULL,
+m_tarih TIMESTAMP NOT NULL,
+hastalik_id NUMBER(11) NOT NULL,
+dr_id INT NOT NULL,
+PRIMARY KEY (m_id),
+FOREIGN KEY (dr_id) REFERENCES DOKTOR (dr_id),
+FOREIGN KEY (hastalik_id) REFERENCES HASTALIK (hastalik_id)
+);
+
+
+
+CREATE TABLE HASTALIK(
+hastalık_id INT NOT NULL,
+h_hastalık VARCHAR2(255) NOT NULL,
+h_tcNo NUMBER(11) NOT NULL,
+r_id INT NOT NULL,
+m_id INT NOT NULL,
+PRIMARY KEY (hastalık_id),
+FOREIGN KEY (r_id) REFERENCES RANDEVU (r_id),
+FOREIGN KEY (m_id) REFERENCES MUAYENE (m_id)
+);
+
+CREATE TABLE HASTA
+(
+h_tcNo NUMBER(11) NOT NULL,
+h_ad VARCHAR2(20) NOT NULL,
+h_soyad VARCHAR2(20) NOT NULL,
+h_cinsiyet  VARCHAR2(10) NOT NULL,
+h_kanGrubu VARCHAR2(20) NOT NULL,
+h_dYeri VARCHAR2(50) NOT NULL,
+h_dTarihi DATE NOT NULL,
+h_telefon NUMBER(14) NOT NULL,
+h_adres  VARCHAR2(150)NOT NULL,
+hastalık_id INT NOT NULL,
+PRIMARY KEY (h_tcNo),
+FOREIGN KEY (hastalık_id) REFERENCES HASTALIK (hastalık_id)
+);
+
+
+
+INSERT INTO  POLIKLINIK VALUES('1','Dahiliye','Kat: 1, No: 1' );
+INSERT INTO  POLIKLINIK VALUES(	'2','Kardiyoloji','Kat: 1, No: 2' );
+INSERT INTO  POLIKLINIK VALUES(	'3','Acil Polikliniği','Kat: 1, No: 3' );
+INSERT INTO  POLIKLINIK VALUES(	'4','Kulak Burun Boğaz','Kat: 2, No: 1' );
+INSERT INTO  POLIKLINIK VALUES(	'5','Dermatoloji','Kat: 2, No: 2');
+INSERT INTO  POLIKLINIK VALUES(	'6','Ortopedi ve Travmatoloji','Kat: 3, No: 1');
+INSERT INTO  POLIKLINIK VALUES(	'7','Nöroloji','Kat: 3, No: 2');
+
+
+
+INSERT INTO DOKTOR VALUES('1','Gül','Aksoy','05321234567','gul_aksoy38@gmail.com','Kadın','1');
+INSERT INTO DOKTOR VALUES('2','Mert','Uzun','05432345678','mert5uzun@hotmail.com','Erkek','5');
+INSERT INTO DOKTOR VALUES('3','Sema ','Acar ','05553456789','92sema.acar@gmail.com ','Kadın ','2');
+INSERT INTO DOKTOR VALUES('4','Elif ','Korkmaz ',' 05664567890','korkmaz.elif@hotmail.com ','Erkek ','6');
+INSERT INTO DOKTOR VALUES('5','Kerem ','Erdem ',' 05315678901','kerem_4erdem@gmail.com ','Erkek ','2');
+INSERT INTO DOKTOR VALUES('6',' Işıl','Doğan ','05426789012 ','isil7.dogan@hotmail.com ',' Kadın','3');
+INSERT INTO DOKTOR VALUES('7','Ece ' ,'Polat ','05537890123 ',' ece.polat@gmail.com',' Kadın','6');
+INSERT INTO DOKTOR VALUES('8',' Ceyda ','Öztürk ','05648901234 ',' ceyda_ozturk34@hotmail.com',' Kadın','2');
+INSERT INTO DOKTOR VALUES('9',' Fırat ',' Bozkurt','05339012345 ',' f1rat.bozkurt@gmail.com','Erkek ','5');
+INSERT INTO DOKTOR VALUES('10',' Selim ',' Arslan','05440123456 ',' selimarslan_88@hotmail.com','Erkek ','7');
+INSERT INTO DOKTOR VALUES('11',' Arda ' ,'Eren ','05561234567 ','arda.eren59@gmail.com ',' Erkek','1');
+INSERT INTO DOKTOR VALUES('12',' Gülten ','Aydın ','05672345678 ',' aydin.gulten@hotmail.com','Kadın ','7');
+INSERT INTO DOKTOR VALUES('13','  Ahmet','Öz','05343456789 ','ahmetoz1907@gmail.com ',' Erkek','5');
+INSERT INTO DOKTOR VALUES('14',' Burak ','Güneş ',' 05454567890','gunes_burak42@hotmail.com ',' Erkek','2');
+INSERT INTO DOKTOR VALUES('15',' Pelin ','Şahin ',' 05575678901','pelin.sahin@gmail.com ',' Kadın','4');
+INSERT INTO DOKTOR VALUES('16','  Ali','Güzel ',' 05686789012',' ali.guzel19@hotmail.com',' Erkek','4');
+INSERT INTO DOKTOR VALUES('17',' Derya ','Akın ','05357890123 ','derya23akin@gmail.com ','Kadın ','3');
+INSERT INTO DOKTOR VALUES('18','  Ozan',' Uçar','05468901234 ',' ucars.ozan@hotmail.com',' Erkek','1');
+INSERT INTO DOKTOR VALUES('19','  Özlem','Şen ','05589012345 ',' 45ozlem.sen@gmail.com','Kadın ','4');
+INSERT INTO DOKTOR VALUES('20','  Cenk','Demir ','05690123456 ',' cenk1demir@hotmail.com','Erkek ','6');
+INSERT INTO DOKTOR VALUES('21',' Melis ','Kaya ','05361234567 ',' kaya.melis68@gmail.com',' Kadın','5');
+INSERT INTO DOKTOR VALUES('22',' Zeynep ',' Taş','05472345678 ','zeyneptas@hotmail.com ',' Kadın','1');
+INSERT INTO DOKTOR VALUES('23','  Aslı','Çelik ','05593456789 ',' asli_91celik@gmail.com','Kadın ','3');
+INSERT INTO DOKTOR VALUES('24',' Emre ',' Yıldız','05604567890 ',' emre10.yildiz@hotmail.com','Erkek ','1');
+INSERT INTO DOKTOR VALUES('25','  Levent','Yavuz ',' 05375678901',' leventyavuz@gmail.com','Erkek ','5');
+INSERT INTO DOKTOR VALUES('26','  Mehmet',' Yalçın','05486789012 ',' mehmet_yalcin84@hotmail.com','Erkek ','1');
+INSERT INTO DOKTOR VALUES('27','  Canan','Yılmaz ',' 05617890123',' canan.yilmaz@gmail.com','Kadın ','6');
+INSERT INTO DOKTOR VALUES('28',' Sibel ','Dinç ',' 05388901234','sibel9dinc@hotmail.com ','Kadın ','4');
+INSERT INTO DOKTOR VALUES('29',' Ufuk ','Koç ','05499012345 ',' ufuk.koc52@gmail.com','Erkek ','3');
+INSERT INTO DOKTOR VALUES('30','  Hakan',' Özkan','05620123456 ','hakan.ozkan79@hotmail.com ',' Erkek','7');
+
+
+INSERT INTO RANDEVU VALUES('1 ','2024-Jan-02 - 15.00',' Gerçekleşti','12345678910 ','1');
+INSERT INTO RANDEVU VALUES('2 ','2024-Jan-07 - 12.30',' Gerçekleşmedi','23456789101 ','4');
+INSERT INTO RANDEVU VALUES('3 ','2024-Jan-15 - 10.00',' Gerçekleşti','34567891012 ','1');
+INSERT INTO RANDEVU VALUES('4 ','2024-Jan-22 - 11.30',' Gerçekleşti','34567891012 ','6');
+INSERT INTO RANDEVU VALUES('5 ','2024-Jan-29 - 9.30','Gerçekleşti ','56789101234 ','1');
+INSERT INTO RANDEVU VALUES('6 ','2024-Feb-03 - 9.45','Gerçekleşti ','67891012345 ','2');
+INSERT INTO RANDEVU VALUES('7 ','2024-Feb-11 - 10.45',' Gerçekleşmedi','78910123456 ','4');
+INSERT INTO RANDEVU VALUES('8 ','2024-Feb-19 - 10.30','Gerçekleşmedi ','78910123456 ','5');
+INSERT INTO RANDEVU VALUES('9 ','2024-Feb-26 - 14.00',' Gerçekleşti','90123456789 ','6');
+INSERT INTO RANDEVU VALUES('10 ','2024-Mar-01 - 13.30','Gerçekleşti','11234567890 ','4');
+INSERT INTO RANDEVU VALUES('11 ','2024-Mar-08 - 15.00','Ertelendi ','22345678901 ','5');
+INSERT INTO RANDEVU VALUES('12 ','2024-Mar-14 - 13.00','Gerçekleşti ','33456789102 ','3');
+INSERT INTO RANDEVU VALUES('13 ','2024-Mar-20 - 12.30','İptal Edildi ','44567891023 ','5');
+INSERT INTO RANDEVU VALUES('14 ','2024-Mar-26 - 12.30','Gerçekleşti ','44567891023','3');
+INSERT INTO RANDEVU VALUES('15 ','2024-Mar-31 - 15.30 ','Gerçekleşti ','66789101245 ','6');
+INSERT INTO RANDEVU VALUES('16 ','2024-Apr-05 - 14.45','Gerçekleşti ','77891012356 ','7');
+INSERT INTO RANDEVU VALUES('17 ','2024-Apr-12 - 14.30','Gerçekleşti ','88910123467 ','7');
+INSERT INTO RANDEVU VALUES('18 ','2024-Jan-12 - 13:45','Ertelendi ','99012345679 ','5');
+INSERT INTO RANDEVU VALUES('19 ','2024-Apr-25 - 12.30','Gerçekleşti ','10123456780 ','6');
+INSERT INTO RANDEVU VALUES('20 ','2024-Apr-30 - 10.00',' Gerçekleşti','21234567891 ','4');
+INSERT INTO RANDEVU VALUES('21 ','2024-May-04 - 16.00','Gerçekleşti ','32345678912 ','2');
+INSERT INTO RANDEVU VALUES('22 ','2024-May-10 - 16.30','Gerçekleşti ','43456789123 ','2');
+INSERT INTO RANDEVU VALUES('23 ','2024-May-15 - 9.45','Gerçekleşti','54567891034 ','4');
+INSERT INTO RANDEVU VALUES('24 ','2024-May-20 - 9.30 ','gerçekleşti ','65678910145 ','7');
+INSERT INTO RANDEVU VALUES('25 ','2024-May-25 - 10.30','Gerçekleşti ','76789101256 ','7');
+INSERT INTO RANDEVU VALUES('26 ','2024-May-01 - 16.45',' Gerçekleşti','87891012367 ','7');
+INSERT INTO RANDEVU VALUES('27 ','2024-Jan-05 - 15.30','Gerçekleşti','98910123478 ','6');
+INSERT INTO RANDEVU VALUES('28 ','2024-Jan-10 - 15.30','Gerçekleşti ','10123456789 ','1');
+INSERT INTO RANDEVU VALUES('29 ','2024-Jan-05 12.30','Gerçekleşti ','21234567890 ','1');
+INSERT INTO RANDEVU VALUES('30 ','2024-Jan-10 - 9.00','Gerçekleşti ','32345678901 ','4');
+INSERT INTO RANDEVU VALUES('31 ','2024-Jan-16 - 12.00','Gerçekleşti ','43456789102 ','7');
+INSERT INTO RANDEVU VALUES('32 ','2024-Jan-21 - 11.00','Gerçekleşti ','54567891013 ','7');
+INSERT INTO RANDEVU VALUES('33 ','2024-Jan-27 - 14.00','Gerçekleşti ','65678910124 ','4');
+INSERT INTO RANDEVU VALUES('34 ','2024-Feb-02 - 14.45','Gerçekleşti ','65678910124 ','4');
+INSERT INTO RANDEVU VALUES('35 ','2024-Feb-06 - 13.30','Gerçekleşti','87891012346 ','4');
+INSERT INTO RANDEVU VALUES('36 ','2024-Fen-24 - 9.00','ertelendi ','98910123457 ','1');
+INSERT INTO RANDEVU VALUES('37 ','2024-Feb-10 - 10.45','Gerçekleşti','10123456780 ','5');
+INSERT INTO RANDEVU VALUES('38 ','2024-Feb-18 - 13.00','Gerçekleşti ','21234567891 ','5');
+INSERT INTO RANDEVU VALUES('39 ','2024-Mar-03 - 15.00 ','Gerçekleşti','32345678912 ','5');
+INSERT INTO RANDEVU VALUES('40 ','2024-Mar-07 - 16.30','gerçekleşti ','43456789123 ','3');
+INSERT INTO RANDEVU VALUES('41 ','2024-Mar-03 - 14.30','Gerçekleşti ','54567891034 ','3');
+INSERT INTO RANDEVU VALUES('42 ','2024-Mar-29 - 11.00','iptal_edildi ','54567891034 ','1');
+INSERT INTO RANDEVU VALUES('43 ','2024-Mar-07 - 10.45','Gerçekleşti ','76789101256 ','3');
+INSERT INTO RANDEVU VALUES('44 ','2024-Apr-09 - 15.00','ertelendi','87891012367 ','1');
+INSERT INTO RANDEVU VALUES('45 ','2024-Mar-29 - 9.00 ','Gerçekleşti','98910123478 ','4');
+INSERT INTO RANDEVU VALUES('46','2024-Mar-09 - 11.30','Gerçekleşti','98910123457','1');
+INSERT INTO RANDEVU VALUES('47','2024-Mar-09 - 15.45','Gerçekleşti','10123456780','3');
+INSERT INTO RANDEVU VALUES('48','2024-Apr-05 - 12.00','Gerçekleşti','21234567891','3');
+INSERT INTO RANDEVU VALUES('49','2024-Jan-12 - 11.00','İptal Edildi','32345678912','1');
+INSERT INTO RANDEVU VALUES('50','2024-Mar-19 - 9.30','Gerçekleşti','43456789123','1');
+INSERT INTO RANDEVU VALUES('51','2024-May-21 - 14.30','Gerçekleşti','54567891034','1' );
+INSERT INTO RANDEVU VALUES('52','2024-Apr-29 - 12.45','Gerçekleşti','54567891034','1');
+INSERT INTO RANDEVU VALUES('53','2024-Apr-03 - 9.00','Gerçekleşti','76789101256','1');
+INSERT INTO RANDEVU VALUES('54','2024-Apr-10 - 13.00','Gerçekleşti','87891012367','4');
+INSERT INTO RANDEVU VALUES('55','2024-Apr-06 - 15.00','Gerçekleşti','98910123478','4');
+
+
+
+
+INSERT INTO  HASTA VALUES('12345678910 ','Ahmet  ','Yılmaz ','Erkek ','A+ ','Diyabet ',' Balıkesir','3.03.1984 ','5016782934 ','Cumhuriyet Mahallesi, Atatürk Caddesi, No: 10, Bandırma, Balıkesir ','1 ','1 ');
+INSERT INTO  HASTA  VALUES('23456789101 ','Mehmet  ','Kaya ','Erkek ','AB+ ','Orta Kulak İltihabı ','Ankara ','15.08.1976 ','5053749125 ','600 Evler Mahallesi, Plevne Caddesi, No: 45, Bandırma, Balıkesir ','2 ','2 ');
+INSERT INTO  HASTA  VALUES('34567891012 ','Ayşe  ',' Demir ','Kadın ','B- ','HiperTansiyon ','Balıkesir ','22.11.1993 ','5065987234 ','Paşabayır Mahallesi, Şehitler Caddesi, No: 30, Bandırma, Balıkesir ','3 ','3 ');
+INSERT INTO  HASTA  VALUES('34567891012 ','Ayşe  ',' Demir ','Kadın ','B- ','Kırık ','Balıkesir ','22.11.1993 ','5065987234 ','Paşabayır Mahallesi, Şehitler Caddesi, No: 30, Bandırma, Balıkesir ','4 ','4 ');
+INSERT INTO  HASTA  VALUES('56789101234 ','Emre  ',' Şahin ','Erkek ','O+ ','Diyabet ','Bursa ','28.02.1972 ','5394782651 ','Hacıyusuf Mahallesi, İstiklal Caddesi, No: 25, Bandırma, Balıkesir ','5 ','5 ');
+INSERT INTO  HASTA  VALUES('67891012345 ','Hakan  ',' Yıldız ','Erkek ','AB+ ','Kalp Yetmezliği ','Balıkesir ','5.10.1999 ','5417389402 ','Orhaniye Mahallesi, Çamlıca Caddesi, No: 8, Bandırma, Balıkesir ','6 ','6 ');
+INSERT INTO  HASTA  VALUES('78910123456 ','Zeynep  ',' Özdemir ','Kadın ','A+ ','Sinüzit ','Balıkesir ','13.12.1981 ','5465938720 ','Yeni Mahalle, İnönü Caddesi, No: 15, Bandırma, Balıkesir ','7 ',' 7');
+INSERT INTO  HASTA  VALUES('78910123456 ','Zeynep  ',' Özdemir ','Kadın ','A+ ','Egzama ','Balıkesir ','13.12.1981 ','5465938720 ','Yeni Mahalle, İnönü Caddesi, No: 15, Bandırma, Balıkesir ','8 ','8 ');
+INSERT INTO  HASTA  VALUES('90123456789 ','Mustafa  ',' Korkmaz ','Erkek ','A+ ','Skolyoz ','Balıkesir ','23.01.1983 ','5317294850 ','Paşakent Mahallesi, Eski Hastane Caddesi, No: 35, Bandırma, Balıkesir ','9 ','9 ');
+INSERT INTO  HASTA  VALUES('11234567890 ',' Burcu ',' Doğan ','Kadın ','AB-  ','Bademcik İltihabı ','Balıkesir ','30.06.2001 ','5462819347 ','Dinkçiler Mahallesi, Zübeyde Hanım Caddesi, No: 40, Bandırma, Balıkesir ','10 ','10 ');
+INSERT INTO  HASTA  VALUES('22345678901 ','Ceren  ',' Aksoy ','Kadın ','A+ ','Akne ','Eskişehir ','8.09.2000 ','5362894715 ','Edincik Mahallesi, Cumhuriyet Caddesi, No: 17, Bandırma, Balıkesir ','11 ','11 ');
+INSERT INTO  HASTA  VALUES('33456789102 ','Hasan  ',' Koç ',' ','Erkek ','A+ ','Kaza ','Balıkesir ','19.04.2004 ','5073912846 ','Aksakal Mahallesi, Atatürk Bulvarı, No: 5, Bandırma, Balıkesir ','12 ','12 ');
+INSERT INTO  HASTA  VALUES('44567891023 ','Hüseyin  ',' Polat ','Erkek ','O+ ','Egzama ','Balıkesir ','11.11.1995 ','5369824731 ','Hamidiye Mahallesi, Adnan Menderes Caddesi, No: 23, Bandırma, Balıkesir ','13 ','13 ');
+INSERT INTO  HASTA  VALUES('44567891023 ','Hüseyin  ',' Polat ','Erkek ','O+ ','Kaza ','Balıkesir ','11.11.1995 ','5369824731','Hamidiye Mahallesi, Adnan Menderes Caddesi, No: 23, Bandırma, Balıkesir ','14 ','14 ');
+INSERT INTO  HASTA  VALUES('66789101245 ','Elif  ',' Arslan ','Kadın ','AB-  ','Menisküs Yırtığı ','Balıkesir ','7.02.2000 ','5473918254','Hıdır Mahallesi, Barbaros Caddesi, No: 36, Bandırma, Balıkesir','15 ','15 ');
+INSERT INTO  HASTA  VALUES('77891012356 ','Merve  ',' Öztürk ','Kadın ',' B-','Epilepsi ','Balıkesir ','17.10.1998  ','5024981637 ','Çalışkanlar Mahallesi, Lale Caddesi, No: 19, Bandırma, Balıkesir ','16 ','16 ');
+INSERT INTO  HASTA  VALUES('88910123467 ','Melis  ',' Kılıç ','Kadın ','AB+ ','Migren ',' Balıkesir','3.12.2001','5057391824 ','Kaşif Acar Mahallesi, Hürriyet Caddesi, No: 11, Bandırma, Balıkesir ','17 ','17 ');
+INSERT INTO  HASTA VALUES('99012345679','Gökhan',' Bozkurt','Erkek','O-','Akne','Manisa''29.05.2002','5064219387','Haydar Çavuş Mahallesi, Cevdet Sunay Caddesi, No: 44, Bandırma, Balıkesir','18','18' );
+INSERT INTO  HASTA VALUES('10123456780','Sinan', ' Güngör','Erkek','A-','kolyoz','Balıkesir','4.04.1994','5394812036','Beylikköprü Mahallesi, Yavuz Sultan Selim Caddesi, No: 22, Bandırma, Balıkesir',	'19','19' );
+INSERT INTO  HASTA VALUES('21234567891','İrem', ' Kılıç','Kadın','B+','Bademcik İltihabı',	'Balıkesir','12.06.1987','5462873951','Yenice Mahallesi, İsmet İnönü Caddesi, No: 38, Bandırma, Balıkesir','20',	'20' );
+INSERT INTO  HASTA VALUES('32345678912','Ece', ' Akın','Kadın',	'A-','Kalp Yetmezliği','Sakarya','27.08.1971','5429173856','Kayacık Mahallesi, Mithatpaşa Caddesi, No: 21, Bandırma, Balıkesir',	'21','21' );
+INSERT INTO  HASTA VALUES('43456789123','Kerem' ,' Yücel','Erkek''A+','Aritmi','Balıkesir',	'1.03.1996','5014923857','Çarıkköy Mahallesi, Zeytinlik Caddesi, No: 9, Bandırma, Balıkesir','22','22' );
+INSERT INTO  HASTA VALUES('54567891034','Sema ','Uçar','Kadın','A+','Orta Kulak İltihabı','Tekirdağ','14.11.1980','5075391268','Mahbubeler Mahallesi, Cumhuriyet Bulvarı, No: 26, Bandırma, Balıkesir','23','23' );
+INSERT INTO  HASTA VALUES('65678910145','Serkan',' Kaya','Erkek','B+','Epilepsi','Balıkesir','21.07.2000','5365987421','Gündoğdu Mahallesi, Yeşilırmak Caddesi, No: 31, Bandırma, Balıkesir','24','24' );
+INSERT INTO  HASTA VALUES('76789101256','Derya' ,' Demirci','Kadın','O-','Migren','Balıkesir','9.01.1978','5374291863','Saraylar Mahallesi, Şehit Şerafettin Caddesi, No: 42, Bandırma, Balıkesir','25','25' );
+INSERT INTO  HASTA VALUES('87891012367','Onur', ' Acar','Erkek','AB+','İnme','Muğla','16.09.1992','5432819764','Küçük Sanayi Sitesi, Sanayi Caddesi, No: 7, Bandırma, Balıkesir','26','26' );
+INSERT INTO  HASTA VALUES('98910123478','Büşra',' Ersoy','Kadın','O+','Kireçlenme','Balıkesir','5.02.1975','5012983746','Taşlıbayır Mahallesi, Fevzi Çakmak Caddesi, No: 20, Bandırma, Balıkesir','27','27' );
+INSERT INTO  HASTA VALUES('10123456789','Yasemin','Kaplan','Kadın','B-','Diyabet','Balıkesir','26.11.1997','5375918234','Yeni Mahalle, Akçay Caddesi, No: 13, Bandırma, Balıkesir','28','28' );
+INSERT INTO  HASTA VALUES('21234567890','Ozan','Arslan','Erkek','A-','Anemi','Balıkesir','13.03.1983','5342897561','Bahçelievler Mahallesi, Namık Kemal Caddesi, No: 29, Bandırma, Balıkesir','29','29' );
+INSERT INTO  HASTA VALUES('32345678901','Esra',' Kara',	'Kadın','AB-','Bademcik İltihabı','Çanakkale','30.07.1970','5423987156','Karşıyaka Mahallesi, Dumlupınar Caddesi, No: 37, Bandırma, Balıkesir','30','30' );
+INSERT INTO  HASTA VALUES('43456789102','Canan','Turan','Kadın','B+','Migren','Balıkesir','6.10.1991','5076249318','Bandırma Limanı, Liman Caddesi, No: 2, Bandırma, Balıkesir','31','31' );
+INSERT INTO  HASTA VALUES('54567891013','Emel',' Özkan','Kadın','O+','Epilepsi','Afyonkarahisar','18.12.1984','5368274915','Yıl Mahallesi, Gül Caddesi, No: 18, Bandırma, Balıkesir','32','32' );
+INSERT INTO  HASTA VALUES('65678910124','Selin','Çetinkaya','Kadın','B-','Sinüzit','Balıkesir',	'23.05.1973','5314928763','Cumhuriyet Mahallesi, Kurtuluş Caddesi, No: 32, Bandırma, Balıkesir','33','33' );
+INSERT INTO  HASTA VALUES('65678910124','Selin',' Çetinkaya','Kadın','B-','Orta Kulak İltihabı','Balıkesir','23.05.1973','5314928763','Cumhuriyet Mahallesi, Kurtuluş Caddesi, No: 32, Bandırma, Balıkesir','34','34' );
+INSERT INTO  HASTA VALUES('87891012346','Gül','Öz','Kadın','AB+','Bademcik İltihabı','Balıkesir','15.04.1986','5019482736','Hacıyusuf Mahallesi, Özgürlük Caddesi, No: 16, Bandırma, Balıkesir','35','35' );
+INSERT INTO  HASTA VALUES('98910123457','İbrahim','Bal','Erkek','B-','Anemi','Balıkesir','11.11.1974','5068294715','Orhaniye Mahallesi, Selimiye Caddesi, No: 6, Bandırma, Balıkesir','36','36' );
+INSERT INTO  HASTA VALUES('10123456780','Leyla', 'Tekin','Kadın','A+','Akne','Kütahya','20.07.1999','5317492865','Yeni Mahalle, Atalay Caddesi, No: 27, Bandırma, Balıkesir','37','37' );
+INSERT INTO  HASTA VALUES('21234567891','Nihat',' Yaman','Erkek','A+','Egzama','Balıkesir','7.01.1982','5482917364','Günaydın Mahallesi, Sağlık Caddesi, No: 5, Bandırma, Balıkesir','38','38' );
+INSERT INTO  HASTA VALUES('32345678912','Özgür',' Alkan','Erkek','B+','Egzama','Balıkesir','22.02.1976','5463928715','Paşakent Mahallesi, Ulus Caddesi, No: 34, Bandırma, Balıkesir','39','39' );
+INSERT INTO  HASTA VALUES('43456789123','Sibel','Doğan','Kadın','AB-','Astım Krizi','Balıkesir','9.09.1995','5073918264','Dinkçiler Mahallesi, Altınova Caddesi, No: 21, Bandırma, Balıkesir','40','40' );
+INSERT INTO  HASTA VALUES('54567891034','Yasin','Bayraktar','Erkek','A+','Kaza','Uşak','27.06.2001','5067392148','Edincik Mahallesi, Deniz Caddesi, No: 39, Bandırma, Balıkesir','41','41' );
+INSERT INTO  HASTA VALUES('54567891034','Yasin',' Bayraktar	Erkek','A+','Anemi','Uşak','27.06.2001','5067392148','Edincik Mahallesi, Deniz Caddesi, No: 39, Bandırma, Balıkesir','42','42' );
+INSERT INTO  HASTA VALUES('76789101256','Ferhat','Taş','Erkek','O+','Kalp Krizi','Balıkesir','5.03.1994','5319742865','Hamidiye Mahallesi, Kazım Karabekir Caddesi, No: 22, Bandırma, Balıkesir','43','43' );
+INSERT INTO  HASTA VALUES('87891012367','Gamze',' Özer','Kadın','O-','Diyabet','Düzce','18.08.1980','5432817469','Yeni Sığırcı Mahallesi, Kurtuluş Caddesi, No: 14, Bandırma, Balıkesir','44','44' );
+INSERT INTO  HASTA VALUES('98910123478','Halil', 'Akbaş','Erkek','B+','Bademcik İltihabı','Balıkesir','24.04.1992','5017493286','Hıdır Mahallesi, Mehmet Akif Ersoy Caddesi, No: 27, Bandırma, Balıkesir','45','45' );
+INSERT INTO  HASTA VALUES('98910123457','İbrahim','Bal','Erkek','B-','Diyabet','Balıkesir','11.11.1974','5068294715','Orhaniye Mahallesi, Selimiye Caddesi, No: 6, Bandırma, Balıkesir','46','46' );
+INSERT INTO  HASTA VALUES('10123456780','Leyla','Tekin','Kadın','A+','Kaza','Kütahya','20.07.1999','5317492865','Yeni Mahalle, Atalay Caddesi, No: 27, Bandırma, Balıkesir','47','47' );
+INSERT INTO  HASTA VALUES('21234567891','Nihat',' Yaman','Erkek','A+','Kaza','Balıkesir','7.01.1982','5482917364','Günaydın Mahallesi, Sağlık Caddesi, No: 5, Bandırma, Balıkesir','48','48' );
+INSERT INTO  HASTA VALUES('32345678912','Özgür',' Alkan','Erkek','B+','HiperTansiyon','Balıkesir','22.02.1976','5463928715','Paşakent Mahallesi, Ulus Caddesi, No: 34, Bandırma, Balıkesir','49','49' );
+INSERT INTO  HASTA VALUES('43456789123','Sibel','Doğan','Kadın','AB-','Anemi','Balıkesir','9.09.1995','5073918264','Dinkçiler Mahallesi, Altınova Caddesi, No: 21, Bandırma, Balıkesir','50','50' );
+INSERT INTO  HASTA VALUES('54567891034','Yasin','Bayraktar','Erkek','A+','HiperTansiyon','Uşak','27.06.2001','5067392148','Edincik Mahallesi, Deniz Caddesi, No: 39, Bandırma, Balıkesir','51','51' );
+INSERT INTO  HASTA VALUES('54567891034','Yasin',' Bayraktar','Erkek','A+','Diyabet','Uşak','27.06.2001','5067392148','Edincik Mahallesi, Deniz Caddesi, No: 39, Bandırma, Balıkesir','52','52' );
+INSERT INTO  HASTA VALUES('76789101256','Ferhat','Taş','Erkek','O+','Diyabet','Balıkesir','5.03.1994','5319742865','Hamidiye Mahallesi, Kazım Karabekir Caddesi, No: 22, Bandırma, Balıkesir','53','53' );
+INSERT INTO  HASTA VALUES('87891012367','Gamze','Özer','Kadın','O-','Bademcik İltihabı','Düzce','18.08.1980','5432817469','Yeni Sığırcı Mahallesi, Kurtuluş Caddesi, No: 14, Bandırma, Balıkesir','54','54' );
+INSERT INTO  HASTA VALUES('98910123478','Halil',' Akbaş','Erkek','B+','Orta Kulak İltihabı','Balıkesir','24.04.1992','5017493286','Hıdır Mahallesi, Mehmet Akif Ersoy Caddesi, No: 27, Bandırma, Balıkesir','55','55' );
+
+
+
+
+INSERT INTO  MUAYENE VALUES('1','2.01.2024 - 15.00','12345678910','11');
+INSERT INTO  MUAYENE VALUES('2','7.01.2024 - 12.30','23456789101','15');
+INSERT INTO  MUAYENE VALUES('3','15.01.2024 - 10.00','34567891012','1');
+INSERT INTO  MUAYENE VALUES('4','22.01.2024 - 11.30','34567891012','4');
+INSERT INTO  MUAYENE VALUES('5','29.01.2024 - 9.30','56789101234','18'	);
+INSERT INTO  MUAYENE VALUES('6','3.02.2024 - 9.45',	'67891012345','3');
+INSERT INTO  MUAYENE VALUES('7','11.02.2024 - 10.45','78910123456','16');
+INSERT INTO  MUAYENE VALUES('8','19.02.2024 - 10.30','78910123456','2');
+INSERT INTO  MUAYENE VALUES('9','26.02.2024 - 14.00','90123456789','7');
+INSERT INTO  MUAYENE VALUES('10','1.03.2024 - 13.30','11234567890','19');
+INSERT INTO  MUAYENE VALUES('11','14.03.2024 - 13.00','33456789102','6');
+INSERT INTO  MUAYENE VALUES('12','26.03.2024 - 12.30','44567891023','17');
+INSERT INTO  MUAYENE VALUES('13','31.03.2024 - 15.30','66789101245','20');
+INSERT INTO  MUAYENE VALUES('14','5.04.2024 - 14.45','77891012356','10');
+INSERT INTO  MUAYENE VALUES('15','12.04.2024 - 14.30','88910123467','2');
+INSERT INTO  MUAYENE VALUES('16','25.04.2024 - 12.30','10123456780','27');
+INSERT INTO  MUAYENE VALUES('17','30.04.2024 - 10.00','21234567891','28');
+INSERT INTO  MUAYENE VALUES('18','4.05.2024 - 16.00','32345678912','5');
+INSERT INTO  MUAYENE VALUES('19','10.05.2024 - 16.30','43456789123','14');
+INSERT INTO  MUAYENE VALUES('20','15.05.2024 - 9.45','54567891034','28');
+INSERT INTO  MUAYENE VALUES('21','20.05.2024 - 9.30','65678910145','30');
+INSERT INTO  MUAYENE VALUES('22','25.05.2024 - 10.30','76789101256','10');
+INSERT INTO  MUAYENE VALUES('23','1.01.2024 - 16.45','87891012367','12');
+INSERT INTO  MUAYENE VALUES('24','5.01.2024 - 15.30','98910123478','20');
+INSERT INTO  MUAYENE VALUES('25','10.01.2024 - 15.30','10123456789','26');
+INSERT INTO  MUAYENE VALUES('26','5.01.2024 12.30','21234567890','24');
+INSERT INTO  MUAYENE VALUES('27','10.01.2024 - 9.00','32345678901','19');
+INSERT INTO  MUAYENE VALUES('28','16.01.2024 - 12.00','43456789102','10');
+INSERT INTO  MUAYENE VALUES('29','21.01.2024 - 11.00','54567891013','10');
+INSERT INTO  MUAYENE VALUES('30','27.01.2024 - 14.00','65678910124','16');
+INSERT INTO  MUAYENE VALUES('31','2.02.2024 - 14.45','65678910124','15');
+INSERT INTO  MUAYENE VALUES('32','6.02.2024 - 13.30','87891012346','15');
+INSERT INTO  MUAYENE VALUES('33','10.02.2024 - 10.45','10123456780','25');
+INSERT INTO  MUAYENE VALUES('34','18.02.2024 - 13.00','21234567891','21');
+INSERT INTO  MUAYENE VALUES('35','3.03.2024 - 15.00','32345678912','13');
+INSERT INTO  MUAYENE VALUES('36','7.03.2024 - 16.30','43456789123','29');
+INSERT INTO  MUAYENE VALUES('37','3.03.2024 - 14.30','54567891034','23');
+INSERT INTO  MUAYENE VALUES('38','7.03.2024 - 10.00','76789101256','17');
+INSERT INTO  MUAYENE VALUES('39','29.03.2024 - 9.00','98910123478','28');
+INSERT INTO  MUAYENE VALUES('40','9.04.2024 - 11.30','98910123457','1');
+INSERT INTO  MUAYENE VALUES('41','9.03.2024 - 15.45','10123456780','17');
+INSERT INTO  MUAYENE VALUES('42','5.04.2024 - 12.00','21234567891','6');
+INSERT INTO  MUAYENE VALUES('43','19.03.2024 - 9.30','43456789123','18');
+INSERT INTO  MUAYENE VALUES('44','21.05.2024 - 14.30','54567891034','24');
+INSERT INTO  MUAYENE VALUES('45','29.04.2024 - 12.45','54567891034','26');
+INSERT INTO  MUAYENE VALUES('46','3.04.2024 - 9.00','76789101256','22');
+INSERT INTO  MUAYENE VALUES('47','10.04.2024 - 13.00','87891012367','15');
+INSERT INTO  MUAYENE VALUES('48','6.04.2024 - 15.00','98910123478','28');
+
+
+
+INSERT INTO  HASTALIK VALUES('1','12345678910','Diyabet','1','1');
+INSERT INTO  HASTALIK VALUES('2','23456789101','Orta Kulak İltihabı','2','2');
+INSERT INTO  HASTALIK VALUES('3','34567891012','HiperTansiyon','3','3');
+INSERT INTO  HASTALIK VALUES('4','34567891012','Kırık','4','4');
+INSERT INTO  HASTALIK VALUES('5','56789101234','Diyabet','5','5');
+INSERT INTO  HASTALIK VALUES('6','67891012345','Kalp Yetmezliği','6','6');
+INSERT INTO  HASTALIK VALUES('7','78910123456','Sinüzit','7','7');
+INSERT INTO  HASTALIK VALUES('8','78910123456','Egzama','8','8');
+INSERT INTO  HASTALIK VALUES('9','90123456789','Skolyoz','9','9');
+INSERT INTO  HASTALIK VALUES('10','11234567890','Bademcik İltihabı','10','10');
+INSERT INTO  HASTALIK VALUES('11', '22345678901','Akne','11','NULL');
+INSERT INTO  HASTALIK VALUES('12','33456789102','Kaza','12','11');
+INSERT INTO  HASTALIK VALUES('13','44567891023','Egzama','13','NULL');
+INSERT INTO  HASTALIK VALUES('14','44567891023','Kaza','14','12');
+INSERT INTO  HASTALIK VALUES('15','66789101245','Menisküs Yırtığı','15','13');
+INSERT INTO  HASTALIK VALUES('16','77891012356','Epilepsi','16','14');
+INSERT INTO  HASTALIK VALUES('17','88910123467','Migren','17','15');
+INSERT INTO  HASTALIK VALUES('18','99012345679','Akne','18','NULL');
+INSERT INTO  HASTALIK VALUES('19','10123456780','Skolyoz','19','16');
+INSERT INTO  HASTALIK VALUES('20','21234567891','Bademcik İltihabı','20','17');
+INSERT INTO  HASTALIK VALUES('21','32345678912','Kalp Yetmezliği','21','18');
+INSERT INTO  HASTALIK VALUES('22','43456789123','Aritmi','22','19');
+INSERT INTO  HASTALIK VALUES('23','54567891034','Orta Kulak İltihabı','23','20');
+INSERT INTO  HASTALIK VALUES('24','65678910145','Epilepsi','24','21');
+INSERT INTO  HASTALIK VALUES('25','76789101256','Migren','25','22');
+INSERT INTO  HASTALIK VALUES('26','87891012367','İnme','26','23');
+INSERT INTO  HASTALIK VALUES('27','98910123478','Kireçlenme','27','24');
+INSERT INTO  HASTALIK VALUES('28','10123456789','Diyabet','28','25');
+INSERT INTO  HASTALIK VALUES('29','21234567890','Anemi','29','26');
+INSERT INTO  HASTALIK VALUES('30','32345678901','Bademcik İltihabı','30','27');
+INSERT INTO  HASTALIK VALUES('31','43456789102','Migren','31','28');
+INSERT INTO  HASTALIK VALUES('32','54567891013','Epilepsi','32','29');
+INSERT INTO  HASTALIK VALUES('33','65678910124','Sinüzit','33','30');
+INSERT INTO  HASTALIK VALUES('34','65678910124','Orta Kulak İltihabı','34','31');
+INSERT INTO  HASTALIK VALUES('35','87891012346','Bademcik İltihabı','35','32');
+INSERT INTO  HASTALIK VALUES('36','98910123457','Anemi','36','NULL');
+INSERT INTO  HASTALIK VALUES('37','10123456780','Akne','37','33');
+INSERT INTO  HASTALIK VALUES('38','21234567891','Egzama','38','34');
+INSERT INTO  HASTALIK VALUES('39','32345678912','Egzama','39','35');
+INSERT INTO  HASTALIK VALUES('40','43456789123','Astım Krizi','40','36');
+INSERT INTO  HASTALIK VALUES('41','54567891034','Kaza','41','37');
+INSERT INTO  HASTALIK VALUES('42','54567891034','Anemi','42','NULL'	);
+INSERT INTO  HASTALIK VALUES('43','76789101256','Kalp Krizi','43','38');
+INSERT INTO  HASTALIK VALUES('44','87891012367','Diyabet','44','NULL');
+INSERT INTO  HASTALIK VALUES('45','98910123478','Bademcik İltihabı','45','39');
+INSERT INTO  HASTALIK VALUES('46','98910123457','Diyabet','46','40');
+INSERT INTO  HASTALIK VALUES('47','10123456780','Kaza','47','41');
+INSERT INTO  HASTALIK VALUES('48','21234567891','Kaza','48','42');
+INSERT INTO  HASTALIK VALUES('49','32345678912','HiperTansiyon','49','NULL');
+INSERT INTO  HASTALIK VALUES('50','43456789123','Anemi','50','43');
+INSERT INTO  HASTALIK VALUES('51','54567891034','HiperTansiyon','51','44');
+INSERT INTO  HASTALIK VALUES('52','54567891034','Diyabet','52','45');
+INSERT INTO  HASTALIK VALUES('53','76789101256','Diyabet','53','46');
+INSERT INTO  HASTALIK VALUES('54','87891012367','Bademcik İltihabı','54','47');
+INSERT INTO  HASTALIK VALUES('55','98910123478','Orta Kulak İltihabı','55','48');
+
+
